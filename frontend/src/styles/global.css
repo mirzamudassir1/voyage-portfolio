@@ -1,0 +1,351 @@
+:root {
+  --ocean-deep: #0b3d5c;
+  --ocean-mid: #1b6b93;
+  --ocean-light: #4fa8c9;
+  --parchment: #f2e8d5;
+  --brass: #c08a3e;
+  --ink: #1a2530;
+  --font-display: "Bitter", serif;
+  --font-body: "Work Sans", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: var(--ocean-deep);
+  color: var(--parchment);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0 0 0.4em;
+}
+
+a {
+  color: var(--brass);
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+}
+
+/* ---------- Voyage scaffolding ---------- */
+
+.voyage-wrapper {
+  position: relative;
+}
+
+.voyage-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.voyage-track {
+  display: flex;
+  height: 100vh;
+  will-change: transform;
+}
+
+.island-section {
+  min-width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 4rem 6vw;
+}
+
+/* ---------- Ocean background ---------- */
+
+.ocean-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    #0a2a40 0%,
+    var(--ocean-deep) 40%,
+    var(--ocean-mid) 100%
+  );
+  z-index: 0;
+}
+
+.wave-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 140px;
+  background-repeat: repeat-x;
+  background-size: 900px 140px;
+  opacity: 0.55;
+}
+
+.wave-layer.wave-1 {
+  bottom: 0;
+  background-image: radial-gradient(
+    ellipse 450px 70px at 50% 100%,
+    var(--ocean-light) 60%,
+    transparent 62%
+  );
+  animation: drift 14s linear infinite;
+}
+
+.wave-layer.wave-2 {
+  bottom: 40px;
+  opacity: 0.35;
+  background-image: radial-gradient(
+    ellipse 450px 70px at 50% 100%,
+    var(--ocean-mid) 60%,
+    transparent 62%
+  );
+  animation: drift 20s linear infinite reverse;
+}
+
+@keyframes drift {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: -900px;
+  }
+}
+
+/* ---------- Ship ---------- */
+
+.ship-wrap {
+  position: fixed;
+  left: 12vw;
+  top: 46%;
+  transform: translateY(-50%);
+  z-index: 5;
+  animation: bob 3.4s ease-in-out infinite;
+  filter: drop-shadow(0 12px 10px rgba(0, 0, 0, 0.35));
+  pointer-events: none;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(-50%) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-58%) rotate(2deg);
+  }
+}
+
+/* ---------- Cards / panels ---------- */
+
+.panel {
+  background: var(--parchment);
+  color: var(--ink);
+  border-radius: 4px;
+  padding: 2.2rem 2.4rem;
+  max-width: 520px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+  position: relative;
+}
+
+.panel-tag {
+  color: var(--brass);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin-bottom: 0.6rem;
+  display: block;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.chip {
+  background: var(--ocean-deep);
+  color: var(--parchment);
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+}
+
+.link-row {
+  margin-top: 1.2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.brass-btn {
+  background: var(--brass);
+  color: var(--ink);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 3px;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.brass-btn:hover {
+  background: #d59a4d;
+}
+
+.ghost-btn {
+  background: transparent;
+  border: 1px solid var(--parchment);
+  color: var(--parchment);
+  padding: 0.55rem 1.1rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+
+/* ---------- Home port ---------- */
+
+.home-port h1 {
+  font-size: clamp(2rem, 5vw, 3.4rem);
+  color: var(--parchment);
+}
+
+.home-port .sub {
+  font-size: 1.15rem;
+  color: var(--ocean-light);
+  max-width: 480px;
+}
+
+.scroll-hint {
+  position: absolute;
+  bottom: 2.2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.85rem;
+  color: var(--ocean-light);
+  letter-spacing: 0.04em;
+}
+
+/* ---------- Socials ---------- */
+
+.social-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+  margin-top: 1.4rem;
+}
+
+.social-list a {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-decoration: none;
+  color: var(--ink);
+  border-bottom: 2px solid var(--brass);
+  width: fit-content;
+  padding-bottom: 2px;
+}
+
+/* ---------- Captain's Quarters (admin) ---------- */
+
+.captains-quarters-trigger {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  z-index: 20;
+  background: rgba(11, 61, 92, 0.85);
+  border: 1px solid var(--brass);
+  color: var(--parchment);
+  border-radius: 999px;
+  padding: 0.55rem 1rem;
+  font-size: 0.85rem;
+}
+
+.admin-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 20, 28, 0.72);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+.admin-panel {
+  background: var(--parchment);
+  color: var(--ink);
+  border-radius: 6px;
+  padding: 2rem;
+  width: min(720px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+}
+
+.admin-panel h2 {
+  color: var(--ocean-deep);
+}
+
+.admin-form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.9rem;
+}
+
+.admin-form-row label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.admin-form-row input,
+.admin-form-row textarea {
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #c9bda0;
+  border-radius: 3px;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.admin-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #ddd0b0;
+}
+
+.admin-close {
+  position: absolute;
+  top: 1rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  font-size: 1.3rem;
+  color: var(--ocean-deep);
+}
+
+.error-text {
+  color: #a33;
+  font-size: 0.85rem;
+}
+
+@media (max-width: 640px) {
+  .ship-wrap {
+    left: 6vw;
+    transform: translateY(-50%) scale(0.75);
+  }
+  .panel {
+    padding: 1.5rem 1.4rem;
+  }
+}
