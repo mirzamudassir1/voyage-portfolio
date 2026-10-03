@@ -39,7 +39,7 @@ export default function App() {
 
    // home + about + (one per project) + skills + certifications + connect
   const sectionCount = 5 + projects.length;
-  const totalHeight = `${(sectionCount + 1) * 100}vh`;
+  const totalHeight = `${sectionCount * 100}vh`;
 
   useEffect(() => {
     function onScroll() {

@@ -232,6 +232,10 @@ button {
 
 /* ---------- Home port ---------- */
 
+.home-port {
+  padding-left: clamp(2rem, 24vw, 420px) !important;
+}
+
 .home-port h1 {
   font-size: clamp(2rem, 5vw, 3.4rem);
   color: var(--parchment);
