@@ -1,8 +1,11 @@
+import IslandShape from "./IslandShape.jsx";
+
 export default function AboutIsland({ about }) {
   if (!about) return null;
 
   return (
     <section className="island-section">
+      <IslandShape variant="grass" />
       <div className="panel">
         <span className="panel-tag">Island I — About</span>
         <h2>{about.tagline || "The Captain's Log"}</h2>

@@ -1,8 +1,11 @@
+import IslandShape from "./IslandShape.jsx";
+
 export default function SignalTower({ socials }) {
   return (
     <section className="island-section">
+      <IslandShape variant="lighthouse" />
       <div className="panel">
-        <span className="panel-tag">Signal Tower</span>
+        <span className="panel-tag">Connect</span>
         <h2>Reach the Captain</h2>
         <div className="social-list">
           {(socials || []).map((s) => (

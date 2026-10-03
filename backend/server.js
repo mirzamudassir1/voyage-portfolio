@@ -7,6 +7,7 @@ import authRoutes from "./routes/auth.js";
 import projectRoutes from "./routes/projects.js";
 import socialRoutes from "./routes/socials.js";
 import aboutRoutes from "./routes/about.js";
+import certificationRoutes from "./routes/certifications.js";
 
 dotenv.config();
 
@@ -21,6 +22,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/socials", socialRoutes);
 app.use("/api/about", aboutRoutes);
+app.use("/api/certifications", certificationRoutes);
 
 // Fallback error handler
 app.use((err, req, res, next) => {

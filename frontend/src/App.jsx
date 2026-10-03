@@ -33,7 +33,7 @@ export default function App() {
     loadData();
   }, []);
 
-  const sectionCount = 3 + projects.length; // home + about + projects + skills + socials
+  const sectionCount = 4 + projects.length; // home + about + projects + skills + socials
   const totalHeight = sectionCount === 3 ? "300vh" : `${sectionCount + 1}00vh`;
 
   useEffect(() => {

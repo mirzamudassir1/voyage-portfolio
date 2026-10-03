@@ -1,6 +1,9 @@
+import IslandShape from "./IslandShape.jsx";
+
 export default function ProjectIsland({ project, index }) {
   return (
     <section className="island-section">
+      <IslandShape variant="rock" />
       <div className="panel">
         <span className="panel-tag">Island {index} — Project</span>
         <h2>{project.title}</h2>

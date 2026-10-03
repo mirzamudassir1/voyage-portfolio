@@ -148,6 +148,23 @@ button {
   }
 }
 
+/* ---------- Island shapes ---------- */
+
+.island-svg {
+  position: absolute;
+  bottom: -2vh;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(70vw, 620px);
+  height: auto;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.island-section .panel {
+  margin-bottom: 14vh;
+}
+
 /* ---------- Cards / panels ---------- */
 
 .panel {

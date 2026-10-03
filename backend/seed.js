@@ -7,6 +7,7 @@ import Admin from "./models/Admin.js";
 import Project from "./models/Project.js";
 import Social from "./models/Social.js";
 import About from "./models/About.js";
+import Certification from "./models/Certification.js";
 import mongoose from "mongoose";
 
 dotenv.config();
@@ -71,6 +72,19 @@ async function seed() {
       { platform: "LinkedIn", url: "https://linkedin.com/in/your-handle", order: 2 }
     ]);
     console.log("Sample socials created.");
+  }
+
+  const certCount = await Certification.countDocuments();
+  if (certCount === 0) {
+    await Certification.create([
+      {
+        title: "Sample Certification — edit me in Captain's Quarters",
+        issuer: "Issuer name",
+        date: "2025",
+        order: 1
+      }
+    ]);
+    console.log("Sample certification created.");
   }
 
   console.log("Seeding complete.");

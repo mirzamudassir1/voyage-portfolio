@@ -1,6 +1,9 @@
+import IslandShape from "./IslandShape.jsx";
+
 export default function SkillsReef({ skills }) {
   return (
     <section className="island-section">
+      <IslandShape variant="reef" />
       <div className="panel">
         <span className="panel-tag">Skills Reef</span>
         <h2>Cargo Hold</h2>
