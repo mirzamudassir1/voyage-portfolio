@@ -6,6 +6,7 @@ import HomePort from "./components/HomePort.jsx";
 import AboutIsland from "./components/AboutIsland.jsx";
 import ProjectIsland from "./components/ProjectIsland.jsx";
 import SkillsReef from "./components/SkillsReef.jsx";
+import CertificationsIsland from "./components/CertificationsIsland.jsx";
 import SignalTower from "./components/SignalTower.jsx";
 import CaptainsQuarters from "./components/CaptainsQuarters.jsx";
 
@@ -13,28 +14,32 @@ export default function App() {
   const [about, setAbout] = useState(null);
   const [projects, setProjects] = useState([]);
   const [socials, setSocials] = useState([]);
+  const [certifications, setCertifications] = useState([]);
   const [adminOpen, setAdminOpen] = useState(false);
 
   const wrapperRef = useRef(null);
   const trackRef = useRef(null);
 
   async function loadData() {
-    const [aboutRes, projectsRes, socialsRes] = await Promise.all([
+    const [aboutRes, projectsRes, socialsRes, certsRes] = await Promise.all([
       client.get("/about"),
       client.get("/projects"),
-      client.get("/socials")
+      client.get("/socials"),
+      client.get("/certifications")
     ]);
     setAbout(aboutRes.data);
     setProjects(projectsRes.data);
     setSocials(socialsRes.data);
+    setCertifications(certsRes.data);
   }
 
   useEffect(() => {
     loadData();
   }, []);
 
-  const sectionCount = 4 + projects.length; // home + about + projects + skills + socials
-  const totalHeight = sectionCount === 3 ? "300vh" : `${sectionCount + 1}00vh`;
+   // home + about + (one per project) + skills + certifications + connect
+  const sectionCount = 5 + projects.length;
+  const totalHeight = `${(sectionCount + 1) * 100}vh`;
 
   useEffect(() => {
     function onScroll() {
@@ -68,6 +73,7 @@ export default function App() {
               <ProjectIsland key={p._id} project={p} index={i + 2} />
             ))}
             <SkillsReef skills={about?.skills} />
+            <CertificationsIsland certifications={certifications} />
             <SignalTower socials={socials} />
           </div>
         </div>
@@ -82,6 +88,7 @@ export default function App() {
           about={about}
           projects={projects}
           socials={socials}
+          certifications={certifications}
           onRefresh={loadData}
           onClose={() => setAdminOpen(false)}
         />
