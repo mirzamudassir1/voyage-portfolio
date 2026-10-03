@@ -12,19 +12,23 @@ const emptyProject = {
 };
 
 const emptySocial = { platform: "", url: "", order: 0 };
+const emptyCertification = { title: "", issuer: "", date: "", url: "", order: 0 };
 
-export default function AdminDashboard({ about, projects, socials, onRefresh, onLogout }) {
+export default function AdminDashboard({ about, projects, socials, certifications, onRefresh, onLogout }) {
   const [tab, setTab] = useState("projects");
 
   return (
     <div>
       <h2>Captain's Quarters</h2>
-      <div className="link-row" style={{ marginBottom: "1.2rem" }}>
+      <div className="link-row" style={{ marginBottom: "1.2rem", flexWrap: "wrap" }}>
         <button className={tab === "projects" ? "brass-btn" : "ghost-btn"} onClick={() => setTab("projects")}>
           Projects
         </button>
         <button className={tab === "socials" ? "brass-btn" : "ghost-btn"} onClick={() => setTab("socials")}>
-          Socials
+          Connect
+        </button>
+        <button className={tab === "certifications" ? "brass-btn" : "ghost-btn"} onClick={() => setTab("certifications")}>
+          Certifications
         </button>
         <button className={tab === "about" ? "brass-btn" : "ghost-btn"} onClick={() => setTab("about")}>
           About
@@ -36,6 +40,9 @@ export default function AdminDashboard({ about, projects, socials, onRefresh, on
 
       {tab === "projects" && <ProjectsTab projects={projects} onRefresh={onRefresh} />}
       {tab === "socials" && <SocialsTab socials={socials} onRefresh={onRefresh} />}
+      {tab === "certifications" && (
+        <CertificationsTab certifications={certifications} onRefresh={onRefresh} />
+      )}
       {tab === "about" && <AboutTab about={about} onRefresh={onRefresh} />}
     </div>
   );
@@ -239,6 +246,99 @@ function SocialsTab({ socials, onRefresh }) {
                 Edit
               </button>
               <button className="ghost-btn" onClick={() => handleDelete(s._id)}>
+                Delete
+              </button>
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CertificationsTab({ certifications, onRefresh }) {
+  const [form, setForm] = useState(emptyCertification);
+  const [editingId, setEditingId] = useState(null);
+  const [error, setError] = useState("");
+
+  function startEdit(c) {
+    setEditingId(c._id);
+    setForm(c);
+  }
+
+  function resetForm() {
+    setEditingId(null);
+    setForm(emptyCertification);
+  }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setError("");
+    const payload = { ...form, order: Number(form.order) || 0 };
+    try {
+      if (editingId) {
+        await client.put(`/certifications/${editingId}`, payload);
+      } else {
+        await client.post("/certifications", payload);
+      }
+      resetForm();
+      onRefresh();
+    } catch (err) {
+      setError(err.response?.data?.message || "Save failed");
+    }
+  }
+
+  async function handleDelete(id) {
+    if (!confirm("Remove this certification?")) return;
+    await client.delete(`/certifications/${id}`);
+    onRefresh();
+  }
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div className="admin-form-row">
+          <label>Title</label>
+          <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+        </div>
+        <div className="admin-form-row">
+          <label>Issuer</label>
+          <input value={form.issuer} onChange={(e) => setForm({ ...form, issuer: e.target.value })} />
+        </div>
+        <div className="admin-form-row">
+          <label>Date</label>
+          <input value={form.date} onChange={(e) => setForm({ ...form, date: e.target.value })} placeholder="2025" />
+        </div>
+        <div className="admin-form-row">
+          <label>Credential URL</label>
+          <input value={form.url} onChange={(e) => setForm({ ...form, url: e.target.value })} />
+        </div>
+        <div className="admin-form-row">
+          <label>Order</label>
+          <input type="number" value={form.order} onChange={(e) => setForm({ ...form, order: e.target.value })} />
+        </div>
+        {error && <p className="error-text">{error}</p>}
+        <div className="link-row">
+          <button type="submit" className="brass-btn">
+            {editingId ? "Update" : "Add certification"}
+          </button>
+          {editingId && (
+            <button type="button" className="ghost-btn" onClick={resetForm}>
+              Cancel
+            </button>
+          )}
+        </div>
+      </form>
+
+      <div style={{ marginTop: "1.6rem" }}>
+        {certifications.map((c) => (
+          <div className="admin-item-row" key={c._id}>
+            <span>{c.title}</span>
+            <span className="link-row">
+              <button className="ghost-btn" onClick={() => startEdit(c)}>
+                Edit
+              </button>
+              <button className="ghost-btn" onClick={() => handleDelete(c._id)}>
                 Delete
               </button>
             </span>

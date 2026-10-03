@@ -2,7 +2,7 @@ import { useState } from "react";
 import AdminLogin from "./AdminLogin.jsx";
 import AdminDashboard from "./AdminDashboard.jsx";
 
-export default function CaptainsQuarters({ about, projects, socials, onRefresh, onClose }) {
+export default function CaptainsQuarters({ about, projects, socials, certifications, onRefresh, onClose }) {
   const [loggedIn, setLoggedIn] = useState(!!localStorage.getItem("captain_token"));
 
   function handleLogout() {
@@ -21,6 +21,7 @@ export default function CaptainsQuarters({ about, projects, socials, onRefresh, 
             about={about}
             projects={projects}
             socials={socials}
+            certifications={certifications}
             onRefresh={onRefresh}
             onLogout={handleLogout}
           />
