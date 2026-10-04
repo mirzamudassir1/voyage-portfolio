@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import client from "./api/client.js";
 import Ocean from "./components/Ocean.jsx";
 import Ship from "./components/Ship.jsx";
@@ -17,9 +17,6 @@ export default function App() {
   const [certifications, setCertifications] = useState([]);
   const [adminOpen, setAdminOpen] = useState(false);
 
-  const wrapperRef = useRef(null);
-  const trackRef = useRef(null);
-
   async function loadData() {
     const [aboutRes, projectsRes, socialsRes, certsRes] = await Promise.all([
       client.get("/about"),
@@ -37,36 +34,22 @@ export default function App() {
     loadData();
   }, []);
 
-   // home + about + (one per project) + skills + certifications + connect
-  const sectionCount = 5 + projects.length;
-  const totalHeight = `${sectionCount * 100}vh`;
-
   useEffect(() => {
-    function onScroll() {
-      if (!wrapperRef.current || !trackRef.current) return;
-      const wrapper = wrapperRef.current;
-      const rect = wrapper.getBoundingClientRect();
-      const scrollableHeight = wrapper.offsetHeight - window.innerHeight;
-      if (scrollableHeight <= 0) return;
-
-      const progress = Math.min(Math.max(-rect.top / scrollableHeight, 0), 1);
-      const trackWidth = trackRef.current.scrollWidth;
-      const maxTranslate = trackWidth - window.innerWidth;
-      trackRef.current.style.transform = `translateX(-${progress * maxTranslate}px)`;
+    function setViewportVar() {
+      document.documentElement.style.setProperty("--vw", `${window.innerWidth}px`);
     }
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [projects.length]);
+    setViewportVar();
+    window.addEventListener("resize", setViewportVar);
+    return () => window.removeEventListener("resize", setViewportVar);
+  }, []);
 
   return (
     <>
-      <div className="voyage-wrapper" ref={wrapperRef} style={{ height: totalHeight }}>
+      <div className="voyage-wrapper">
         <div className="voyage-sticky">
           <Ocean />
           <Ship />
-          <div className="voyage-track" ref={trackRef}>
+          <div className="voyage-track">
             <HomePort name={about?.name} />
             <AboutIsland about={about} />
             {projects.map((p, i) => (

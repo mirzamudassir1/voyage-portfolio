@@ -86,8 +86,13 @@ function ProjectsTab({ projects, onRefresh }) {
 
   async function handleDelete(id) {
     if (!confirm("Sink this project island? This can't be undone.")) return;
-    await client.delete(`/projects/${id}`);
-    onRefresh();
+    setError("");
+    try {
+      await client.delete(`/projects/${id}`);
+      onRefresh();
+    } catch (err) {
+      setError(err.response?.data?.message || "Delete failed");
+    }
   }
 
   return (
@@ -196,8 +201,13 @@ function SocialsTab({ socials, onRefresh }) {
 
   async function handleDelete(id) {
     if (!confirm("Remove this signal?")) return;
-    await client.delete(`/socials/${id}`);
-    onRefresh();
+    setError("");
+    try {
+      await client.delete(`/socials/${id}`);
+      onRefresh();
+    } catch (err) {
+      setError(err.response?.data?.message || "Delete failed");
+    }
   }
 
   return (
@@ -290,8 +300,13 @@ function CertificationsTab({ certifications, onRefresh }) {
 
   async function handleDelete(id) {
     if (!confirm("Remove this certification?")) return;
-    await client.delete(`/certifications/${id}`);
-    onRefresh();
+    setError("");
+    try {
+      await client.delete(`/certifications/${id}`);
+      onRefresh();
+    } catch (err) {
+      setError(err.response?.data?.message || "Delete failed");
+    }
   }
 
   return (
