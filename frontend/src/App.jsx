@@ -43,6 +43,39 @@ export default function App() {
     return () => window.removeEventListener("resize", setViewportVar);
   }, []);
 
+  useEffect(() => {
+    let frameId = null;
+
+    function setVoyageProgress() {
+      const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollableHeight > 0 ? window.scrollY / scrollableHeight : 0;
+
+      document.documentElement.style.setProperty(
+        "--voyage-progress",
+        Math.min(Math.max(progress, 0), 1).toFixed(3)
+      );
+      frameId = null;
+    }
+
+    function handleScroll() {
+      if (frameId === null) {
+        frameId = window.requestAnimationFrame(setVoyageProgress);
+      }
+    }
+
+    setVoyageProgress();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+    };
+  }, []);
+
   return (
     <>
       <div className="voyage-wrapper">

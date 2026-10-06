@@ -71,7 +71,7 @@ button {
 /* ---------- Ocean background ---------- */
 
 .ocean-bg {
-  position: absolute;
+  position: fixed;
   inset: 0;
   background: linear-gradient(
     to bottom,
@@ -80,37 +80,50 @@ button {
     var(--ocean-mid) 100%
   );
   z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
 }
 
 .wave-layer {
   position: absolute;
   left: 0;
   right: 0;
-  height: 140px;
+  height: 180px;
   background-repeat: repeat-x;
-  background-size: 900px 140px;
+  background-size: 900px 180px;
   opacity: 0.55;
 }
 
 .wave-layer.wave-1 {
-  bottom: 0;
+  bottom: -18px;
   background-image: radial-gradient(
-    ellipse 450px 70px at 50% 100%,
-    var(--ocean-light) 60%,
-    transparent 62%
+    ellipse 460px 82px at 50% 100%,
+    rgba(115, 202, 225, 0.8) 0 56%,
+    transparent 58%
   );
-  animation: drift 14s linear infinite;
+  animation: drift 14s linear infinite, swell 5s ease-in-out infinite;
 }
 
 .wave-layer.wave-2 {
-  bottom: 40px;
-  opacity: 0.35;
+  bottom: 28px;
+  opacity: 0.38;
   background-image: radial-gradient(
-    ellipse 450px 70px at 50% 100%,
-    var(--ocean-mid) 60%,
-    transparent 62%
+    ellipse 460px 76px at 50% 100%,
+    rgba(27, 107, 147, 0.95) 0 57%,
+    transparent 59%
   );
   animation: drift 20s linear infinite reverse;
+}
+
+.wave-layer.wave-3 {
+  bottom: 64px;
+  opacity: 0.22;
+  background-image: radial-gradient(
+    ellipse 460px 66px at 50% 100%,
+    rgba(190, 231, 237, 0.85) 0 55%,
+    transparent 57%
+  );
+  animation: drift 26s linear infinite, swell 7s ease-in-out infinite reverse;
 }
 
 @keyframes drift {
@@ -119,6 +132,16 @@ button {
   }
   to {
     background-position-x: -900px;
+  }
+}
+
+@keyframes swell {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(10px);
   }
 }
 
@@ -366,4 +389,13 @@ button {
   .panel {
     padding: 1.5rem 1.4rem;
   }
+}
+.ocean-dark-overlay {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  opacity: calc(var(--voyage-progress, 0) * 0.68);
+  pointer-events: none;
+  z-index: 1;
+  transition: opacity 0.2s linear;
 }
