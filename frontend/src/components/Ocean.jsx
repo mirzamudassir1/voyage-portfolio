@@ -4,6 +4,7 @@ export default function Ocean() {
       <div className="wave-layer wave-1" />
       <div className="wave-layer wave-2" />
       <div className="wave-layer wave-3" />
+      <div className="wave-layer wave-4" />
       <div className="ocean-dark-overlay" />
     </div>
   );

@@ -76,6 +76,48 @@ export default function App() {
     };
   }, []);
 
+  useEffect(() => {
+    let frameId = null;
+    let targetX = window.innerWidth * 0.18;
+    let targetY = window.innerHeight * 0.46;
+    let currentX = targetX;
+    let currentY = targetY;
+
+    function updateShipPosition() {
+      currentX += (targetX - currentX) * 0.12;
+      currentY += (targetY - currentY) * 0.12;
+      document.documentElement.style.setProperty("--ship-x", `${currentX}px`);
+      document.documentElement.style.setProperty("--ship-y", `${currentY}px`);
+      frameId = window.requestAnimationFrame(updateShipPosition);
+    }
+
+    function setTargetPosition(clientX, clientY) {
+      targetX = clientX;
+      targetY = clientY;
+    }
+
+    function handlePointerMove(event) {
+      setTargetPosition(event.clientX, event.clientY);
+    }
+
+    function handleTouchMove(event) {
+      const touch = event.touches[0];
+      if (touch) {
+        setTargetPosition(touch.clientX, touch.clientY);
+      }
+    }
+
+    updateShipPosition();
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.cancelAnimationFrame(frameId);
+    };
+  }, []);
+
   return (
     <>
       <div className="voyage-wrapper">

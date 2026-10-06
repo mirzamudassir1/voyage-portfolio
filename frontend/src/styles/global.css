@@ -88,42 +88,74 @@ button {
   position: absolute;
   left: 0;
   right: 0;
-  height: 180px;
+  height: 48vh;
   background-repeat: repeat-x;
-  background-size: 900px 180px;
-  opacity: 0.55;
+  background-size: 980px 260px;
+  opacity: 0.58;
 }
 
 .wave-layer.wave-1 {
-  bottom: -18px;
+  bottom: -18vh;
   background-image: radial-gradient(
-    ellipse 460px 82px at 50% 100%,
-    rgba(115, 202, 225, 0.8) 0 56%,
-    transparent 58%
-  );
+      ellipse 460px 105px at 50% 100%,
+      rgba(115, 202, 225, 0.86) 0 56%,
+      transparent 58%
+    ),
+    linear-gradient(
+      to top,
+      rgba(42, 151, 182, 0.52),
+      transparent 62%
+    );
+  background-position: 0 0, 0 0;
+  background-size: 980px 260px, 100% 100%;
   animation: drift 14s linear infinite, swell 5s ease-in-out infinite;
 }
 
 .wave-layer.wave-2 {
-  bottom: 28px;
-  opacity: 0.38;
+  bottom: -4vh;
+  opacity: 0.42;
   background-image: radial-gradient(
-    ellipse 460px 76px at 50% 100%,
-    rgba(27, 107, 147, 0.95) 0 57%,
-    transparent 59%
-  );
-  animation: drift 20s linear infinite reverse;
+      ellipse 480px 100px at 50% 100%,
+      rgba(27, 107, 147, 0.96) 0 57%,
+      transparent 59%
+    ),
+    linear-gradient(
+      to top,
+      rgba(10, 66, 97, 0.7),
+      transparent 70%
+    );
+  background-size: 1060px 280px, 100% 100%;
+  animation: drift 20s linear infinite reverse, swell 8s ease-in-out infinite reverse;
 }
 
 .wave-layer.wave-3 {
-  bottom: 64px;
-  opacity: 0.22;
+  bottom: 10vh;
+  opacity: 0.3;
   background-image: radial-gradient(
-    ellipse 460px 66px at 50% 100%,
-    rgba(190, 231, 237, 0.85) 0 55%,
-    transparent 57%
-  );
+      ellipse 500px 88px at 50% 100%,
+      rgba(190, 231, 237, 0.88) 0 55%,
+      transparent 57%
+    ),
+    linear-gradient(
+      to top,
+      rgba(79, 168, 201, 0.4),
+      transparent 72%
+    );
+  background-size: 1150px 240px, 100% 100%;
   animation: drift 26s linear infinite, swell 7s ease-in-out infinite reverse;
+}
+
+.wave-layer.wave-4 {
+  bottom: 22vh;
+  height: 38vh;
+  opacity: 0.2;
+  background-image: radial-gradient(
+    ellipse 540px 70px at 50% 100%,
+    rgba(190, 231, 237, 0.75) 0 52%,
+    transparent 55%
+  );
+  background-size: 1250px 220px;
+  animation: drift 32s linear infinite reverse, swell 9s ease-in-out infinite;
 }
 
 @keyframes drift {
@@ -149,9 +181,10 @@ button {
 
 .ship-wrap {
   position: fixed;
-  left: 12vw;
-  top: 46%;
-  transform: translateY(-50%);
+  left: var(--ship-x, 18vw);
+  top: var(--ship-y, 46vh);
+  transform: translate(-50%, -50%);
+  --ship-scale: 1;
   z-index: 5;
   animation: bob 3.4s ease-in-out infinite;
   filter: drop-shadow(0 12px 10px rgba(0, 0, 0, 0.35));
@@ -161,10 +194,10 @@ button {
 @keyframes bob {
   0%,
   100% {
-    transform: translateY(-50%) rotate(-2deg);
+    transform: translate(-50%, -50%) scale(var(--ship-scale)) rotate(-2deg);
   }
   50% {
-    transform: translateY(-58%) rotate(2deg);
+    transform: translate(-50%, calc(-50% - 8px)) scale(var(--ship-scale)) rotate(2deg);
   }
 }
 
@@ -383,8 +416,7 @@ button {
 
 @media (max-width: 640px) {
   .ship-wrap {
-    left: 6vw;
-    transform: translateY(-50%) scale(0.75);
+    --ship-scale: 0.75;
   }
   .panel {
     padding: 1.5rem 1.4rem;
