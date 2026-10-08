@@ -82,6 +82,7 @@ export default function App() {
     let targetY = window.innerHeight * 0.46;
     let currentX = targetX;
     let currentY = targetY;
+    const moveStep = 36;
 
     function updateShipPosition() {
       currentX += (targetX - currentX) * 0.12;
@@ -91,29 +92,41 @@ export default function App() {
       frameId = window.requestAnimationFrame(updateShipPosition);
     }
 
-    function setTargetPosition(clientX, clientY) {
-      targetX = clientX;
-      targetY = clientY;
+    function moveShip(key) {
+      if (key === "ArrowLeft") {
+        targetX -= moveStep;
+      } else if (key === "ArrowRight") {
+        targetX += moveStep;
+      } else if (key === "ArrowUp") {
+        targetY -= moveStep;
+      } else if (key === "ArrowDown") {
+        targetY += moveStep;
+      }
+
+      targetX = Math.min(Math.max(targetX, 70), window.innerWidth - 70);
+      targetY = Math.min(Math.max(targetY, 60), window.innerHeight - 60);
     }
 
-    function handlePointerMove(event) {
-      setTargetPosition(event.clientX, event.clientY);
-    }
+    function handleKeyDown(event) {
+      const isArrowKey = event.key.startsWith("Arrow");
+      const target = event.target;
+      const isEditable =
+        target instanceof HTMLInputElement ||
+        target instanceof HTMLTextAreaElement ||
+        target instanceof HTMLSelectElement ||
+        target.isContentEditable;
 
-    function handleTouchMove(event) {
-      const touch = event.touches[0];
-      if (touch) {
-        setTargetPosition(touch.clientX, touch.clientY);
+      if (isArrowKey && !isEditable) {
+        event.preventDefault();
+        moveShip(event.key);
       }
     }
 
     updateShipPosition();
-    window.addEventListener("pointermove", handlePointerMove, { passive: true });
-    window.addEventListener("touchmove", handleTouchMove, { passive: true });
+    window.addEventListener("keydown", handleKeyDown);
 
     return () => {
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("keydown", handleKeyDown);
       window.cancelAnimationFrame(frameId);
     };
   }, []);
