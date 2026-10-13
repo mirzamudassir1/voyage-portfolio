@@ -74,5 +74,4 @@ whole voyage without touching components.
 ## Adding more islands
 Each section (About, Skills, Socials) is its own component in
 `frontend/src/components/`. Projects are generated automatically — one
-island per project in your database, ordered by the `order` field you set
-in the admin panel.
+island per project in your database
