@@ -431,3 +431,180 @@ button {
   z-index: 1;
   transition: opacity 0.2s linear;
 }
+
+/* ---------- Depth creatures ---------- */
+
+.sea-life {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.creature {
+  position: absolute;
+  fill: #b7e5ed;
+  stroke: #b7e5ed;
+  stroke-width: 3;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+
+.sea-life-surface .creature-fish,
+.sea-life-sharks .creature-shark,
+.sea-life-whales .creature-whale,
+.sea-life-deep .creature-jelly {
+  opacity: 0.72;
+}
+
+.creature-fish {
+  width: 130px;
+  top: 24%;
+  filter: drop-shadow(0 0 9px rgba(165, 235, 240, 0.42));
+  animation: swim-right 15s linear infinite;
+}
+
+.fish-one {
+  left: -14%;
+}
+
+.fish-two {
+  top: 37%;
+  left: -28%;
+  width: 92px;
+  animation-duration: 19s;
+  animation-delay: -8s;
+  opacity: 0.42;
+}
+
+.creature-shark {
+  width: 250px;
+  top: 42%;
+  fill: #79b9c9;
+  stroke: #79b9c9;
+  filter: drop-shadow(0 0 12px rgba(93, 188, 207, 0.35));
+  animation: swim-left 22s linear infinite;
+}
+
+.shark-one {
+  right: -18%;
+}
+
+.shark-two {
+  top: 62%;
+  right: -30%;
+  width: 190px;
+  animation-duration: 27s;
+  animation-delay: -10s;
+  opacity: 0.4;
+}
+
+.creature-whale {
+  width: 300px;
+  top: 49%;
+  fill: #4e91ac;
+  stroke: #4e91ac;
+  filter: drop-shadow(0 0 15px rgba(87, 181, 212, 0.3));
+  animation: swim-left 30s ease-in-out infinite;
+}
+
+.whale-one {
+  right: -24%;
+}
+
+.whale-two {
+  top: 68%;
+  right: -42%;
+  width: 220px;
+  animation-duration: 36s;
+  animation-delay: -15s;
+  opacity: 0.45;
+}
+
+.creature-jelly {
+  width: 70px;
+  height: 100px;
+  border-radius: 50% 50% 35% 35%;
+  background: radial-gradient(circle at 50% 35%, #d2f8ff, #76d9eb 65%, #4b9ed1);
+  box-shadow: 0 0 22px rgba(118, 225, 241, 0.68);
+  animation: jelly-float 5s ease-in-out infinite;
+}
+
+.creature-jelly span,
+.creature-jelly i,
+.creature-jelly b {
+  position: absolute;
+  top: 70px;
+  width: 3px;
+  height: 45px;
+  border-radius: 50%;
+  background: #8be6f0;
+  transform-origin: top;
+  animation: tentacle-wave 1.8s ease-in-out infinite alternate;
+}
+
+.creature-jelly span {
+  left: 16px;
+}
+
+.creature-jelly i {
+  left: 34px;
+  height: 58px;
+  animation-delay: -0.5s;
+}
+
+.creature-jelly b {
+  left: 52px;
+  height: 40px;
+  animation-delay: -1s;
+}
+
+.jelly-one {
+  left: 19%;
+  top: 60%;
+}
+
+.jelly-two {
+  left: 68%;
+  top: 31%;
+  width: 52px;
+  height: 76px;
+  animation-delay: -1.7s;
+}
+
+.jelly-three {
+  left: 43%;
+  top: 76%;
+  width: 42px;
+  height: 62px;
+  animation-delay: -3s;
+}
+
+@keyframes swim-right {
+  from { transform: translateX(-10vw) translateY(0); }
+  50% { transform: translateX(55vw) translateY(16px); }
+  to { transform: translateX(120vw) translateY(-8px); }
+}
+
+@keyframes swim-left {
+  from { transform: translateX(10vw) translateY(0); }
+  50% { transform: translateX(-55vw) translateY(-18px); }
+  to { transform: translateX(-125vw) translateY(12px); }
+}
+
+@keyframes jelly-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-24px) scale(1.05); }
+}
+
+@keyframes tentacle-wave {
+  from { transform: rotate(-8deg); }
+  to { transform: rotate(10deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creature {
+    animation: none;
+  }
+}
