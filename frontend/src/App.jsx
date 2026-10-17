@@ -82,7 +82,6 @@ export default function App() {
     let targetY = window.innerHeight * 0.46;
     let currentX = targetX;
     let currentY = targetY;
-    const moveStep = 36;
     const clampPosition = (value, minimum, maximum) =>
       Math.min(Math.max(value, minimum), maximum);
 
@@ -94,47 +93,15 @@ export default function App() {
       frameId = window.requestAnimationFrame(updateShipPosition);
     }
 
-    function moveShip(key) {
-      if (key === "ArrowLeft") {
-        targetX -= moveStep;
-      } else if (key === "ArrowRight") {
-        targetX += moveStep;
-      } else if (key === "ArrowUp") {
-        targetY -= moveStep;
-      } else if (key === "ArrowDown") {
-        targetY += moveStep;
-      }
-
-      targetX = clampPosition(targetX, 70, window.innerWidth - 70);
-      targetY = clampPosition(targetY, 60, window.innerHeight - 60);
-    }
-
     function handlePointerMove(event) {
       targetX = clampPosition(event.clientX, 70, window.innerWidth - 70);
       targetY = clampPosition(event.clientY, 60, window.innerHeight - 60);
     }
 
-    function handleKeyDown(event) {
-      const isArrowKey = event.key.startsWith("Arrow");
-      const target = event.target;
-      const isEditable =
-        target instanceof HTMLInputElement ||
-        target instanceof HTMLTextAreaElement ||
-        target instanceof HTMLSelectElement ||
-        target.isContentEditable;
-
-      if (isArrowKey && !isEditable) {
-        event.preventDefault();
-        moveShip(event.key);
-      }
-    }
-
     updateShipPosition();
-    window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
 
     return () => {
-      window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("pointermove", handlePointerMove);
       window.cancelAnimationFrame(frameId);
     };
