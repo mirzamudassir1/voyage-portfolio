@@ -3,7 +3,7 @@
 A MERN-stack interactive portfolio: your visitor sails a ship through a
 side-scrolling ocean, docking at islands for About, each Project, Skills,
 and Socials. You edit everything (projects, socials, about text) from a
-hidden admin panel — **Captain's Quarters** — no redeploy needed.
+hidden admin panel  **Captain's Quarters** — no redeploy needed.
 
 ## Stack
 - **Frontend:** React + Vite, plain CSS (no framework), axios
