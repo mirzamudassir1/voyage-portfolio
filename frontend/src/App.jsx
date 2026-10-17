@@ -83,6 +83,8 @@ export default function App() {
     let currentX = targetX;
     let currentY = targetY;
     const moveStep = 36;
+    const clampPosition = (value, minimum, maximum) =>
+      Math.min(Math.max(value, minimum), maximum);
 
     function updateShipPosition() {
       currentX += (targetX - currentX) * 0.12;
@@ -103,8 +105,13 @@ export default function App() {
         targetY += moveStep;
       }
 
-      targetX = Math.min(Math.max(targetX, 70), window.innerWidth - 70);
-      targetY = Math.min(Math.max(targetY, 60), window.innerHeight - 60);
+      targetX = clampPosition(targetX, 70, window.innerWidth - 70);
+      targetY = clampPosition(targetY, 60, window.innerHeight - 60);
+    }
+
+    function handlePointerMove(event) {
+      targetX = clampPosition(event.clientX, 70, window.innerWidth - 70);
+      targetY = clampPosition(event.clientY, 60, window.innerHeight - 60);
     }
 
     function handleKeyDown(event) {
@@ -124,9 +131,11 @@ export default function App() {
 
     updateShipPosition();
     window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("pointermove", handlePointerMove, { passive: true });
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("pointermove", handlePointerMove);
       window.cancelAnimationFrame(frameId);
     };
   }, []);
